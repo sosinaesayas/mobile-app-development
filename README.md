@@ -1,6 +1,6 @@
 # mobile-app-development
-The title of the project is
-The project is a mobile app which provides questions of different grades and different subjects to the user and helps them to take those questions as a quiz.
+The title of the project is.
+The project is a mobile application which allows students take a quiz, try questions and see the right answer for each of the questions displayed.
 
 full name       | Id
 --------------- |----------
