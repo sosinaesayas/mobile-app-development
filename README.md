@@ -5,5 +5,5 @@ The project is a mobile application which allows students take a quiz, try quest
 full name       | Id
 --------------- |----------
 1.Sosina Esayas | UGR/2014/13
-2.Sitra Mohammed|UGR//13
+2.Sitra Mohammed|UGR/0106/13
 3.Biniam Haile  |UGR/2646/13 
