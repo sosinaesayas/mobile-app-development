@@ -1,6 +1,8 @@
 # mobile-app-development
 The title of the project is "Eth Fetagn".
-The project is a mobile application which allows students take a quiz, try questions and see the right answer for each of the questions displayed.
+
+The project is a mobile application which provides concise notes and a series of grouped questions aimed at helping users improve their performance.
+
 
 full name       | Id
 --------------- |----------
