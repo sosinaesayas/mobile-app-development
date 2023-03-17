@@ -8,4 +8,4 @@ full name       | Id
 --------------- |----------
 1.Sosina Esayas | UGR/2014/13
 2.Sitra Mohammed|UGR/0106/13
-3.Biniam Haile  |UGR/2646/13 
+3.Biniyam Haile  |UGR/2646/13 
