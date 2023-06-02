@@ -30,7 +30,7 @@ const jobSchema = new mongoose.Schema({
         type : Date , 
         required : true
     } , 
-    salary  :{
+    salary  :{ 
         type : String , 
         required : false
 

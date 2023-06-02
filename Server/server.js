@@ -1,12 +1,16 @@
-const app = require("./app")
-const PORT = 5001
+// instantiate npm 
+// install and configure nodemon
+
+const {app} = require('./app')
 const http = require("http")
+const PORT = 5001
 const mongoose = require("mongoose")
 
-const MONGO_URL = "mongodb+srv://biniyhaile:28BUnn4Ovog4e3kx@cluster0.ldiomin.mongodb.net/"
+const MONGO_URL = "mongodb+srv://biniyamhaile:LTJs4XhV5amZckG@cluster0.38iwkgp.mongodb.net/?retryWrites=true&w=majority"
+ 
+
 
 const server = http.createServer(app)
-
 
 mongoose.set('strictQuery', true);
 mongoose.connection.once("open" , ()=>{
@@ -28,3 +32,4 @@ async function startServer(){
 }
 
 startServer()
+ 
