@@ -188,8 +188,8 @@ class JobDataSource {
       Map<String, String> header = await CompanyHeader.companyHeader();
       try {
         final response = await  httpClient.post(Uri.parse("$url/job/postjob") , headers:  header, body: jsonPost);
-
-        if(response.statusCode == 200){
+        print(response.statusCode);
+        if(response.statusCode == 201){
 
          
           

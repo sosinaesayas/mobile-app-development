@@ -27,7 +27,7 @@ class ProfileState {
   final ProfileStatus  loginStatus;
   final ProfileStatus profileUpdate;
   final ProfileStatus updatepassword;
- 
+ final ProfileStatus deleteAccont;
 
   ProfileState({
         this.firstName = "",
@@ -45,6 +45,7 @@ class ProfileState {
     this.loginStatus = ProfileStatus.loggedIn, 
     this.profileUpdate = ProfileStatus.unknown,
     this.updatepassword = ProfileStatus.unknown, 
+    this.deleteAccont =  ProfileStatus.unknown
     
   });
 
@@ -65,7 +66,8 @@ class ProfileState {
     ProfileStatus? requestStatus,
     ProfileStatus? loginStatus,
     ProfileStatus? profileUpdate,
-    ProfileStatus ? updatepassword
+    ProfileStatus ? updatepassword,
+     ProfileStatus ? deleteAccont
   }) {
     return ProfileState(
       firstName: firstName ?? this.firstName,
@@ -80,9 +82,11 @@ class ProfileState {
       profileData: profileData ?? this.profileData,
       isEditing: isEditing ?? this.isEditing,
       requestStatus: requestStatus ?? this.requestStatus,
-      loginStatus: loginStatus ?? this.loginStatus,
+      loginStatus: loginStatus ?? this.loginStatus, 
       profileUpdate: profileUpdate ?? this.profileUpdate,
-      updatepassword : updatepassword ?? this.updatepassword
+      updatepassword : updatepassword ?? this.updatepassword,
+      deleteAccont: deleteAccont ?? this.deleteAccont
+
     );
   }
 }

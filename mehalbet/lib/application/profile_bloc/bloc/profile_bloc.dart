@@ -14,7 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent ,  ProfileState> {
     on<ProfileEditRequested>(_handleProfileEditRequested);
     on<ProfileRequested>(_handleProfileRequested);
     on<ProfileInputChanged>(_handleProfileInputChanged);
-
+    on<deleteAccountRequested>(_handleDeleteAccountRequested);
     on<UpdatePasswordRequested>(_handleUpdatePasswordRequested);
 
     
@@ -41,7 +41,7 @@ class ProfileBloc extends Bloc<ProfileEvent ,  ProfileState> {
         ));
       }, (model) => 
       
-      emit(state.copyWith(requestStatus: ProfileStatus.requestSuccessed))
+      emit(state.copyWith(requestStatus: ProfileStatus.requestSuccessed , isEditing : false ))
       );
     }
   }
@@ -153,4 +153,25 @@ class ProfileBloc extends Bloc<ProfileEvent ,  ProfileState> {
        }
       });
   }
+
+ _handleDeleteAccountRequested(deleteAccountRequested event , Emitter<ProfileState> emit)async{
+      ApiDataSource api = ApiDataSource();
+      final result = await api.deleteAccount(event.passwordData);
+      result.fold((l){
+        if(l == NetworkFailure){
+          emit(state.copyWith(deleteAccont: ProfileStatus.requestFailed));
+        
+        }
+      }, (r){
+
+        if(r == false){
+          emit(state.copyWith(deleteAccont: ProfileStatus.authenticationFailed));
+        }
+       else{
+         return emit(state.copyWith(deleteAccont: ProfileStatus.requestSuccessed));
+       }
+      });
+  }
+
+
 }

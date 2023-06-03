@@ -38,3 +38,8 @@ class UpdatePasswordRequested implements ProfileEvent{
 }
 
 class PasswordInputChanged extends ProfileEvent{}
+
+class deleteAccountRequested extends ProfileEvent{
+  final String passwordData;
+  deleteAccountRequested({required this.passwordData});
+}

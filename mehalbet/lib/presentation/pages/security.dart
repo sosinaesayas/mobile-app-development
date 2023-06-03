@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_bloc.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_event.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_state.dart';
+import 'package:jobportal/presentation/views/delete_account.dart';
+// import 'package:path/path.dart';
 
 class ChangePassword extends StatelessWidget {
   const ChangePassword({super.key});
@@ -30,7 +32,7 @@ class PasswordChange extends StatefulWidget {
 class _PasswordChangeState extends State<PasswordChange> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-
+  TextEditingController _passwordController = TextEditingController();
   void submitPasswordData() {
    
     final passwordData = {
@@ -69,7 +71,9 @@ class _PasswordChangeState extends State<PasswordChange> {
                   onPressed: submitPasswordData,
                   child: state.updatepassword == ProfileStatus.authenticationFailed ? Text('Passwords did not match') : Text("Submit")
                 ),
-                
+                TextButton(onPressed: (){
+                  showDeleteAccountDialog(context , BlocProvider.of<ProfileBloc>(context) , ProfileState());
+                }, child: Text("delete account"  , style: TextStyle(color: Colors.red),))
               ],
             ),
           ),
@@ -153,3 +157,27 @@ Widget buildFieldWithIcon({
     ],
   );
 }
+
+
+
+  void showDeleteAccountDialog(BuildContext  context , ProfileBloc profileBloc , ProfileState profileState) {
+    TextEditingController _passwordController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Confirm Account Deletion'),
+          content: Text('Are you sure you want to delete your account?'),
+          actions: [
+             DeleteAccount() , 
+               TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+              },
+              child: Text('Cancel'),)
+          ],
+        );
+      },
+    );
+  }
+

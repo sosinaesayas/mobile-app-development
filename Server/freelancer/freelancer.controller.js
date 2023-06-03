@@ -1,6 +1,7 @@
 const { response } = require("express");
 const { acceptFreelancer } = require("../job/job.model");
 const {
+    deleteFreelancerById,
     getAppliedFreelancer,
     getNotificationCount ,
     getAllNotifications ,
@@ -9,7 +10,7 @@ const {
      createNotification ,
      loginFreelancer , 
      getAppliedPeople , 
-        checkApplied, 
+        checkApplied,  
         searchFreelancer,
         checkConnection, 
         pushConnection,
@@ -32,12 +33,12 @@ async function httpCreateFreelancer(req , res){
     const returned  = await  createFreelancer(body);
 
     if(returned === true){
-        console.log("fine")
+       
         res.status(200).json({
            
         })
     } else{
-        console.log("not fine")
+        
         res.status(400).json({
             message : returned
         })
@@ -48,13 +49,20 @@ async function httpCreateFreelancer(req , res){
 
 
 
-function httpDeleteFreelancer(req  ,res){
-    // const id = +req.params.id
-    // deleteFreelancerById(id)
-    // // check if the freelancer exist in the database
-    // res.status(201).json({
-    //     ok : true
-    // })
+async function httpDeleteFreelancer(req  ,res){
+    const id = res.locals.id
+    console.log(id)
+   result  = await deleteFreelancerById(id)
+    // check if the freelancer exist in the database
+   if(result){
+    res.status(204).json({
+        ok : true
+    })
+   }else{
+    res.status(401).json({
+        ok : false
+    })
+   }
 }
 
 function httpGetAllFreelancers(){
@@ -269,6 +277,7 @@ async function httpUpdateProfile(req, res){
     bodyEmail = body.email
     email = res.locals.email 
     id = res.locals.id
+    console.log("request coming")
     
     changed =  email === bodyEmail ? false : true 
   
@@ -337,7 +346,7 @@ async function httpUpdatePassword(req, res){
     }
     if(checkOldPassword == true){
 
-      await updatePassword(newPassword , oldPassword);
+      await updatePassword(id , newPassword);
 
       res.status(200).json({ok : true})
     }

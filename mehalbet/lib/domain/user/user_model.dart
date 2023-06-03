@@ -1,9 +1,7 @@
 
-import 'package:json_annotation/json_annotation.dart';
 
 
-part 'user_model.g.dart';
-@JsonSerializable(nullable: false)
+
 class UserModel{
   
   // final String token;
@@ -29,7 +27,43 @@ class UserModel{
             this.phone = "", 
             this.acceptance = ""
             });
-  factory   UserModel.fromJson(Map<String,dynamic> json)=> _$UserModelFromJson(json);
+ 
+
+   factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      id: json['id'],
+      email: json['email'],
+      description: json['description'] ,
+      department: json['department'],
+      phone: json['phone'] ?? "",
+      acceptance: json['acceptance'] ?? "",
+    );
+  }
+
+
+   UserModel copyWith({
+    String? firstName,
+    String? lastName,
+    int? id,
+    String? email,
+    String? description,
+    String? department,
+    String? phone,
+    String? acceptance,
+  }) {
+    return UserModel(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      id:  this.id,
+      email: email ?? this.email,
+      description: description ?? this.description,
+      department: department ?? this.department,
+      phone: phone ?? this.phone,
+      acceptance:  this.acceptance,
+    );
+  }
   Map<String ,  String> toMap(){
     return {
    

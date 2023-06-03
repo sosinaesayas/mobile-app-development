@@ -22,13 +22,21 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Container(
       child: BlocBuilder<AuthBloc, AuthState>(
-        
-        builder: (contex ,state){
+       
+        builder: (context ,state){
           
+           print(state.status);
+           print(state.entity);
           if(state.status == AuthStatus.authenticationSuccess && state.entity == AuthStatus.freelancer){
           
-             WidgetsBinding.instance?.addPostFrameCallback((_) {
-            context.goNamed(RouteNames.home);
+             WidgetsBinding.instance.addPostFrameCallback((_) {
+              
+           try {
+              context.goNamed(RouteNames.home);
+              
+           } catch (e) {
+             print(e);
+           }
             
           });
           
@@ -118,13 +126,14 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff888888),
+                    color: Colors.white
                     
                   ),
                             )
                             ),
                             TextField(
                    controller: _passwordController,
+                   style: TextStyle(color: Colors.white),
                   obscureText: true,
                   decoration: InputDecoration(
                   
@@ -166,7 +175,7 @@ class _LoginState extends State<Login> {
                       Colors.green, // Set the background color of the button
                     ),
                     ),
-                    child: Text('Login' , 
+                    child: Text("${ state.status == AuthStatus.authenticationPending  ? 'Loggin in' : 'Log in'}" , 
                     style: TextStyle(
                       color: Color(0xffffffff),
                     ),
@@ -184,7 +193,7 @@ class _LoginState extends State<Login> {
                         },
                         child: Text("Sign up as a freelancer?"),
                       ),
-        
+                   Text("${state.status == AuthStatus.authenticationFailed ? state.message : ''}" , style : TextStyle(color: Colors.red))
                        ],
                   ),
                 ))

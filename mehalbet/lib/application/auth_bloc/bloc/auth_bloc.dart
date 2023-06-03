@@ -27,14 +27,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           if (failure is InvalidCredentialsFailure) {
             print("Invalid credentials!");
             print(failure.message);
-            emit(state.copyWith(status: AuthStatus.authenticationFailed));
+            emit(state.copyWith(status: AuthStatus.authenticationFailed , message:  failure.message));
           } else if (failure is NetworkFailure) {
             print("Network error!");
             print(failure.message);
-            emit(state.copyWith(status: AuthStatus.authenticationFailed));
+            emit(state.copyWith(status: AuthStatus.authenticationFailed , message:  failure.message));
           } else {
-            print("Unknown failure occurred");
-            emit(state.copyWith(status: AuthStatus.authenticationFailed));
+            print("An error occurred");
+            emit(state.copyWith(status: AuthStatus.authenticationFailed ));
           }
         },
         (userModel) {

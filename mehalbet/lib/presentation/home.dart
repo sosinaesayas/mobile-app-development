@@ -6,7 +6,7 @@ import 'package:jobportal/presentation/pages/notifications_page.dart';
 import 'package:jobportal/presentation/pages/profile.dart';
 import 'package:jobportal/presentation/pages/search_jobs.dart';
 import 'package:jobportal/presentation/views/job_card.dart';
-import 'package:jobportal/presentation/views/my_job_card.dart';
+
 
 
 class Home extends StatefulWidget {
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> {
         child: BlocBuilder<JobBloc, JobsState>(
           builder: (context, state) {
             return DefaultTabController(
-              length: 4,
+              length: 3,
               child: Scaffold(
                 backgroundColor: Colors.black,
                 appBar: AppBar(
@@ -80,15 +80,7 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                        Tab(
-                          child: Text(
-                            "My jobs",
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              backgroundColor: Colors.black,
-                            ),
-                          ),
-                        ),
+                        
                         Tab(
                           child: Text(
                             "Notification",

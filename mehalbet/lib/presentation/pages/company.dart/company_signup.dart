@@ -18,15 +18,27 @@ class _CompanySignupState extends State<CompanySignup> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController retypePasswordController =
       TextEditingController();
+  void redirectUser(){
+
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: Text('Sign Up'),
       ),
       body: BlocBuilder<SignupBloc, SignupState>(
+        
         builder: (context, state) {
+          print(state.companysignup);
+          if(state.companysignup == SignUpStatus.signupSuccess)
+          {  WidgetsBinding.instance?.addPostFrameCallback((_) {
+            context.goNamed(RouteNames.login);
+            
+          });}
+          print(state.companysignup);
           return SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -34,7 +46,7 @@ class _CompanySignupState extends State<CompanySignup> {
                 TextField(
                   controller: companyNameContoller,
                   decoration: InputDecoration(
-                    labelText: 'First Name',
+                    labelText: 'company name',
                   ),
                 ),
                 
@@ -67,17 +79,21 @@ class _CompanySignupState extends State<CompanySignup> {
                   onPressed: () {
                     // Perform sign up request
                     final Map<String, dynamic> userData = {
-                      'companyName': companyNameContoller.text,
+                      'name': companyNameContoller.text,
                        'email': emailController.text,
                       'password': passwordController.text,
                     };
+                    print("added");
+                    print(state.companysignup);
                     context.read<SignupBloc>().add(
                           CompanySignUpRequested(userdata: userData),
                         );
                   },
-                  child: Text('Sign Up'),
+                  child: state.companysignup  == SignUpStatus.requested ? Text("Signing up ...") : Text("Sign up"),
+                 
                 ),
-                TextButton(
+               Text( "${state.companysignup == SignUpStatus.NetworkFailure ? "Network failed, please try again"  : ""}", style: TextStyle(color: Colors.red)),
+                          TextButton(
                       onPressed: () {
                         context.goNamed(RouteNames.signup);
                       },

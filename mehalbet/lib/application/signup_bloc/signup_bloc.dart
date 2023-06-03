@@ -23,11 +23,19 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
 
   Future<void> _handleCompanySignUpRequested(
       CompanySignUpRequested event, Emitter<SignupState> emit) async {
+        print("requested");
+         print(state.companysignup);
     UserApiDataSource api = UserApiDataSource();
+    emit(state.copyWith(companysignup: SignUpStatus.requested));
+    print(state.companysignup);
+    print("--");
     final res = await api.signupCompany(event.userdata);
 
     res.fold((l) {
-      emit(state.copyWith(usersignup: SignUpStatus.NetworkFailure));
-    }, (r) => emit(state.copyWith(usersignup: SignUpStatus.signupSuccess)));
+      emit(state.copyWith(companysignup: SignUpStatus.NetworkFailure));
+    }, (r){
+      print(r);
+        r == true ?  emit(state.copyWith(companysignup: SignUpStatus.signupSuccess)) :emit(state.copyWith(companysignup: SignUpStatus.NetworkFailure));
+    } );
   }
 }

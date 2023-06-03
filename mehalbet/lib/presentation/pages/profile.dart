@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jobportal/application/auth_bloc/bloc/auth_bloc.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_bloc.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_event.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_state.dart';
@@ -55,7 +56,7 @@ class _ProfileState extends State<Profile> {
     };
 
    
-
+    BlocProvider.of<ProfileBloc>(context).add(ProfileSubmitRequested(profileData: profileData));
     
    
 
@@ -82,60 +83,50 @@ class _ProfileState extends State<Profile> {
       child: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if(state.loginStatus == ProfileStatus.loggedOut){
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.goNamed(RouteNames.home);
-             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) {
-                  return  Login();
-                },
-              ),
-            );
-
-            
-
-            
-          });
-
+             context.goNamed(RouteNames.login);
+   
             
           }
           if (state.isEditing ) {
-            return Column(
-              children: [
-                buildFieldWithIcon(
-                  icon: Icons.person,
-                  label: 'First Name',
-                  controller: _firstNameController,
-                  isInvalid: state.isFirstNameValid,
-                  
-                  // initialValue: state.profileData['firstName'] ?? "",
-                ),
-                buildFieldWithIcon(
-                  icon: Icons.person,
-                  label: 'Last Name',
-                  controller: _lastNameController,
-                  isInvalid: state.isLastNameValid,
-                  // initialValue: state.profileData['lastName'] ?? "",
-                ),
-                buildFieldWithIcon(
-                  icon: Icons.email,
-                  label: 'Email',
-                  controller: _emailController,
-                  isInvalid: state.isEmailValid,
-                  // initialValue: state.profileData['email'] ?? "",
-                ),
-                buildFieldWithIcon(
-                  icon: Icons.phone,
-                  label: 'Phone Number',
-                  controller: _phoneNumberController,
-                  isInvalid: state.isPhoneNumberValid,
-                  // initialValue: state.profileData['phoneNumber'] ?? "",
-                ),
-                ElevatedButton(
-                  onPressed: submitProfileData,
-                  child: Text('Submit'),
-                ),
-              ],
+            return SingleChildScrollView(
+              
+              child: Column(
+                children: [
+                  buildFieldWithIcon(
+                    icon: Icons.person,
+                    label: 'First Name',
+                    controller: _firstNameController,
+                    isInvalid: state.isFirstNameValid,
+                    
+                    // initialValue: state.profileData['firstName'] ?? "",
+                  ),
+                  buildFieldWithIcon(
+                    icon: Icons.person,
+                    label: 'Last Name',
+                    controller: _lastNameController,
+                    isInvalid: state.isLastNameValid,
+                    // initialValue: state.profileData['lastName'] ?? "",
+                  ),
+                  buildFieldWithIcon(
+                    icon: Icons.email,
+                    label: 'Email',
+                    controller: _emailController,
+                    isInvalid: state.isEmailValid,
+                    // initialValue: state.profileData['email'] ?? "",
+                  ),
+                  buildFieldWithIcon(
+                    icon: Icons.phone,
+                    label: 'Phone Number',
+                    controller: _phoneNumberController,
+                    isInvalid: state.isPhoneNumberValid,
+                    // initialValue: state.profileData['phoneNumber'] ?? "",
+                  ),
+                  ElevatedButton(
+                    onPressed: submitProfileData,
+                    child: Text('${state.requestStatus == ProfileStatus.requestInProgress ? 'updateing...' : 'update'}'),
+                  ),
+                ],
+              ),
             );
           } else if(state.profileData.isNotEmpty && state.requestStatus == ProfileStatus.requestSuccessed) {
             return Column(

@@ -86,6 +86,7 @@ freelancerRouter.post("/createnotification/:id" , checkCompany , httpCreateNotif
 freelancerRouter.post("/updateprofile" , checkLoggedIn , httpUpdateProfile);
 
 
-freelancerRouter.delete("/:id" , httpDeleteFreelancer)
+freelancerRouter.post("/deleteAccount" , checkLoggedIn , httpDeleteFreelancer)
+
 
 module.exports = {freelancerRouter} 

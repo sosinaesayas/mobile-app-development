@@ -16,6 +16,6 @@ class SignupState{
    }
 
   )=> SignupState(usersignup: usersignup ?? this.usersignup , 
-  companysignup: usersignup ?? this.companysignup
+  companysignup : companysignup ?? this.companysignup
   );
 }

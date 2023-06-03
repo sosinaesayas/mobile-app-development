@@ -496,8 +496,8 @@ async function updateProfile(freelancerId , body){
             } , 
             body
         )
-    
-   
+        console.log(result)
+            console.log("updated!")
 
         return true
     } catch (error) {
@@ -506,6 +506,21 @@ async function updateProfile(freelancerId , body){
 
 
     
+}
+
+async function deleteFreelancerById(id){
+    console.log(id)
+        try {
+            result = await freelancer.deleteOne({
+               id : id
+            })
+           console.log(result)
+            return true
+        } catch (error) {
+            console.log(error)
+           return false
+
+        }
 }
 
 module.exports = {
@@ -530,6 +545,7 @@ module.exports = {
     config , 
     sendAuthentication,
     isOldPasswordValid,
-    updatePassword
+    updatePassword, 
+    deleteFreelancerById
    
 }

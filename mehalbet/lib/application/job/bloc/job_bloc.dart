@@ -196,7 +196,9 @@ List<Job> ? localJobs = await MehalbetDatabase.getInstance.getAllJobs("myjobs");
           }, (r){
              if(r) {
             
-               emit(state.copyWith(postjob : JobsStatus.requestSuccess));};
+               emit(state.copyWith(postjob : JobsStatus.requestSuccess));}else{
+                emit(state.copyWith(postjob: JobsStatus.NetworkFailure));
+               };
           });
 
         } catch (e) {

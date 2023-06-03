@@ -6,7 +6,9 @@ enum AuthStatus {
   authenticationSuccess,
   unknown , 
   freelancer, 
-  company
+  company , 
+  NetworkFailure , 
+
 }
 
 
@@ -17,14 +19,21 @@ class AuthState {
     
     this.status = AuthStatus.unknown,
     this.entity = AuthStatus.unknown,
+    this.message = ""
   });
 
   // final AuthModel authModel;
   final AuthStatus status;
   final AuthStatus entity;
+  final String message;
   AuthState copyWith(
    { AuthStatus? status ,
-    AuthStatus ? entity
+    AuthStatus ? entity , 
+    String ? message
    }
-  ) => AuthState(status: status?? this.status , entity: entity ?? this.entity);
+  ) => AuthState(status: status?? this.status , 
+  entity: entity ?? this.entity,
+  message: message ?? this.message
+  
+  );
 }

@@ -106,4 +106,32 @@ String url = BaseUrlAddress().url;
      }
   }
 
+
+
+ Future<Either<AuthFailure ,bool>> deleteAccount(String passwordData ) async{
+     SharedPreferences prefs= await SharedPreferences.getInstance();
+            String ? token = prefs.getString("token");
+            Map<String , String> headers = {
+              "x-access-token" : token ??"" , 
+              "Content-Type"  : "application/json"
+            };
+     final reqBody = jsonEncode({
+      "password"  : passwordData
+     });
+     String url  = BaseUrlAddress().url;
+     try {
+       final response = await httpClient.post(Uri.parse("$url/freelancer/deleteAccount") , headers: headers, body: reqBody );
+      print(response.statusCode);
+      if(response.statusCode == 204){
+        return right(true);
+      }else if(response.statusCode == 401){
+        return right(false);
+      }
+      return left(NetworkFailure("Network failed"));
+     } catch (e) {
+       print(e);
+       throw e;
+     }
+  }
+
 }

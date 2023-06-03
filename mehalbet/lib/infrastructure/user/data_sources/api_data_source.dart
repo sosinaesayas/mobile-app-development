@@ -42,25 +42,32 @@ class UserApiDataSource {
 
             final requestBody = jsonEncode(model);
             
-
+            print("here");
             final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/freelancer/updateprofile") , headers: headers , body: requestBody);
              
 
+            
 
-
-
+          print(response.statusCode);
           print(response.statusCode == 200);
           if (response.statusCode == 200) {
        
-                final parsed = jsonDecode(response.body) as Map<String, String>;
-                    
-                    final model =  UserModel.fromJson(parsed);
-                  
+                final parsed = jsonDecode(response.body) as Map<String, dynamic>;
+                    UserModel? user = await MehalbetDatabase.getInstance.getUser();
+                    final model =  user!.copyWith(
+                      firstName: parsed['firstName'], 
+                      lastName: parsed['lastName'],
+                      email: parsed['email'], 
+                      phone : parsed['phone']
+                    );
+                  await MehalbetDatabase.getInstance.deleteUserTable();
+
                   await MehalbetDatabase.getInstance.insertUser(model);
                   SharedPreferences prefs = await SharedPreferences.getInstance();
                       await prefs.setString("token", parsed["token"] ?? "");
                         return right(model);}  } 
                         catch (e) {
+                          print(e);
               return left(NetworkFailure("network not available"));
             }
             return left(DatabaseFailure("failed to connect with the database"));
@@ -136,11 +143,13 @@ class UserApiDataSource {
      headers: <String, String>{
       "Content-type" : "application/json"
      }, body: parsed);
-
-    if(response.statusCode == 200){
-        try {   return right(true);
+    
+    if(response.statusCode == 201){
+        try {   
+          print("returned");
+          return right(true);
         } catch (e) {
-         print(e);
+        
          throw (e); 
         }
     }
