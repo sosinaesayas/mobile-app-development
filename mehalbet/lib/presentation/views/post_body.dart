@@ -154,35 +154,20 @@ TextFormField(
           const SizedBox(
             height: 20,
           ),
-          BlocConsumer<JobBloc,JobsState>(
-            listener: (context, state) {
-            
-              if (state.postjob== JobsStatus.requestSuccess) {
-               
-              }
-            },
-            builder: (context, state) {
-              return state.postjob == JobsStatus.jobPostFailed
-                  ? const Column(
-                      children: [
-                        Text(
-                          "posting jobs failed",
-                          style: TextStyle(color: Colors.red),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        )
-                      ],
-                    )
-                  : const Text('');
-            },
-          ),
+         
           BlocBuilder<JobBloc, JobsState>(
             builder: (context, state) {
-              return state.postjob== JobsStatus.requestInProgress
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                    key:Key("posted"),
+            print(state.postjob);
+              if(state.postjob== JobsStatus.requestInProgress){
+                  return const CircularProgressIndicator();}
+              else if(state.postjob == JobsStatus.NetworkFailure){
+                return const Text("Network problem , please try again");
+              }else if(state.postjob == JobsStatus.requestSuccess){
+                return Text("Posted job successfuly!" , style: TextStyle(color: Colors.green),);
+                
+              }
+              return   ElevatedButton(
+                    
                       style: ButtonStyle(
                         elevation:MaterialStateProperty.all(16),
                       ),
@@ -214,6 +199,7 @@ TextFormField(
                         }
                       },
                     );
+                 
             },
           )
         ],

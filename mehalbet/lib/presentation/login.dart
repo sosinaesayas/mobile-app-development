@@ -22,12 +22,23 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Container(
       child: BlocBuilder<AuthBloc, AuthState>(
-       
+
         builder: (context ,state){
-          
-           print(state.status);
-           print(state.entity);
-          if(state.status == AuthStatus.authenticationSuccess && state.entity == AuthStatus.freelancer){
+         if(state.status == AuthStatus.authenticationSuccess && state.entity == AuthStatus.admin){
+             print("here going");
+           WidgetsBinding.instance.addPostFrameCallback((_) {
+              
+           try {
+              context.goNamed(RouteNames.adminHome);
+              
+           } catch (e) {
+             print(e);
+           }
+            
+          });
+             
+          }
+          else if(state.status == AuthStatus.authenticationSuccess && state.entity == AuthStatus.freelancer){
           
              WidgetsBinding.instance.addPostFrameCallback((_) {
               

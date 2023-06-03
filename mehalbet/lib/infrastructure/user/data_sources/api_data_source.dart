@@ -41,7 +41,7 @@ class UserApiDataSource {
             };
 
             final requestBody = jsonEncode(model);
-            
+             
             print("here");
             final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/freelancer/updateprofile") , headers: headers , body: requestBody);
              
@@ -143,6 +143,7 @@ class UserApiDataSource {
      headers: <String, String>{
       "Content-type" : "application/json"
      }, body: parsed);
+
     
     if(response.statusCode == 201){
         try {   
@@ -209,7 +210,127 @@ class UserApiDataSource {
 }
 
 
+ Future<Either<UserFailure , List<UserModel>>> getPendingFreelncers()async{
+      SharedPreferences prefs =await SharedPreferences.getInstance();
+      
+        // final header = await <String , String>{
+        //   "content-Type" : "application/json" , 
+        //   // "x-access-token" : prefs.getString('admin') ?? ""
+        // };
+        final response = await httpClient.get(Uri.parse("${BaseUrlAddress().url}/freelancer/pendingfreelancers"));
 
+        print(response.statusCode);
+       try {
+          if(response.statusCode == 200){
+          print(response.body);
+          final parsed = jsonDecode(response.body) as List;
+          print(parsed);
+          List<UserModel> freelancers = parsed.map((freelancer) => UserModel.fromMap(freelancer)).toList();
+          // await CompanyDatabase.getInstance.insertOrUpdateAppliedFreelancers(jobId , freelancers);
+          return right(freelancers);
+
+        }else if(response.statusCode == 401){
+         return  left(UnAuthorizedAccessFailure("server responded with 400"));
+        }
+       } catch (e) {
+        //  print(e);
+       }
+        return left(NetworkFailure("Please check your connection and try again"));
+
+        
+      }
+
+Future<Either<UserFailure , bool>> confirmFreelancer(id)async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+   final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/freelancer/confirm") ,
+     headers: <String, String>{
+      "Content-type" : "application/json", 
+      "x-access-token" : prefs.getString('token') ?? ""
+     }, body: jsonEncode({"id" : id}));
+
+   if(response.statusCode == 201){
+        try {
+        
+     
+       
+        return right(true);
+        } catch (e) {
+         print(e);
+         throw (e); 
+        }
+    }
+    else{
+      return left(NetworkFailure("Network error"));
+    }
+ }
+
+
+Future<Either<UserFailure , bool>> declineFreelancer(id)async{
+   final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/freelancer/decline") ,
+     headers: <String, String>{
+      "Content-type" : "application/json"
+     }, body: jsonEncode({"id" : id}));
+
+   if(response.statusCode == 200){
+        try {
+        
+     
+       
+        return right(true);
+        } catch (e) {
+         print(e);
+         throw (e); 
+        }
+    }
+    else{
+      return left(NetworkFailure("Network error"));
+    }
+ }
+
+Future<Either<UserFailure , bool>> confirmCompany(id)async{
+   final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/company/confirm") ,
+     headers: <String, String>{
+      "Content-type" : "application/json"
+     }, body: jsonEncode({"id" : id}));
+
+   if(response.statusCode == 200){
+        try {
+        
+     
+       
+        return right(true);
+        } catch (e) {
+         print(e);
+         throw (e); 
+        }
+    }
+    else{
+      return left(NetworkFailure("Network error"));
+    }
+ }
+
+
+Future<Either<UserFailure , bool>> declineCompany(id)async{
+   final response = await httpClient.post(Uri.parse("${BaseUrlAddress().url}/company/decline") ,
+     headers: <String, String>{
+      "Content-type" : "application/json"
+     }, body: jsonEncode({"id" : id}));
+
+   if(response.statusCode == 200){
+        try {
+        
+     
+       
+        return right(true);
+        } catch (e) {
+         print(e);
+         throw (e); 
+        }
+    }
+    else{
+      return left(NetworkFailure("Network error"));
+    }
+ }
 
 
   } 

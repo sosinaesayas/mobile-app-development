@@ -47,7 +47,8 @@ async function loginCompany(req , res){
     })
          
     if(!user){
-        return res.status(403).json({user : false , message : "email doesn't exist"}) //no user , so check the email!
+        // return res.status(403).json({user : false , message : "email doesn't exist"}) //no user , so check the email!
+    return false
     }   
     else if(await bcrypt.compare(req.body.password , user.password )){
         const token = jwt.sign(

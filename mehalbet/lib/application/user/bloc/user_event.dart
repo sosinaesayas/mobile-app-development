@@ -12,3 +12,16 @@ class AcceptFreelancerRequested implements FreelancerEvent{
   final String freelancerId;
   final String jobid;
 }
+
+
+class PendingFreelancersRequested implements FreelancerEvent{}
+
+class ConfirmFreelancerRequested implements FreelancerEvent{
+  ConfirmFreelancerRequested({required this.freelancerId});
+  final String freelancerId;
+}
+
+class DeclineFreelancerRequested implements FreelancerEvent{
+  DeclineFreelancerRequested({required this.freelancerId});
+  final String freelancerId;
+}

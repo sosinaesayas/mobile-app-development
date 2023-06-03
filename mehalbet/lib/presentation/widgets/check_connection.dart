@@ -65,9 +65,12 @@ class _ConnectionButtonState extends State<ConnectionButton> {
           child: CircularProgressIndicator(),
         );
       }
-      return OutlinedButton(onPressed: (){
+     else if(state.status == ConnectionStatus.requested){
+      return   OutlinedButton(onPressed: (){
 
         }, child: Text("Connection request sent"));
+     }
+     return Container();
 
 
 

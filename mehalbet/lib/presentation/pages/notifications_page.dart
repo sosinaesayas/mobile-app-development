@@ -12,11 +12,10 @@ class NotificationsPage extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-            home :     BlocProvider<NotificationBloc>(
+    return     BlocProvider<NotificationBloc>(
         create: (context) => NotificationBloc(),
         child: const UserNotificationList(),
-      )
+    
     );
   }
 }

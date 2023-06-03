@@ -60,8 +60,9 @@ class UserNotificationDataSource implements UserNotificationFacade {
   Future<Either<UserNotificationFailure , bool>> createNotification({required String kind , required String userId})async{
       
       Company ? company = await CompanyDatabase.getInstance.fetchCompany();
-      String companyName = company?.name ?? " ";
-      String email  = company?.email ?? " ";
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String companyName = prefs.getString('companyName') ?? " ";
+      String email  = prefs.getString("companyEmail") ?? " ";
       String msg = Message.notification(kind: kind, email: email, name: companyName);
       Map<String, String> header = await CompanyHeader.companyHeader();
       Map<String, String> reqBody =  {

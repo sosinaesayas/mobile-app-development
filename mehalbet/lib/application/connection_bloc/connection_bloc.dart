@@ -16,14 +16,14 @@ class ConnectionBloc extends Bloc<ConnectionEvent, UserConnectionState> {
 
   Future<void> _handleConnectionRequest(CheckConnectionEvent event, Emitter<UserConnectionState> emit)async{
  try {
-    NotificationRepository localcheck = NotificationRepository();
-    final localres = await localcheck.checkConnection(event.freelancerId);
-    emit(state.copyWith(status:  ConnectionStatus.requestInProgress));
+    // NotificationRepository localcheck = NotificationRepository();
+    // final localres = await localcheck.checkConnection(event.freelancerId);
+    // emit(state.copyWith(status:  ConnectionStatus.requestInProgress));
    
-    localres.fold((failed)
-     {},
+    // localres.fold((failed)
+    //  {},
     
-     (ri){});
+    //  (ri){});
   
     UserNotificationDataSource api = UserNotificationDataSource();
     final remoteres = await api.CheckConnection(freelancerId: event.freelancerId);

@@ -8,7 +8,7 @@ enum AuthStatus {
   freelancer, 
   company , 
   NetworkFailure , 
-
+  admin
 }
 
 

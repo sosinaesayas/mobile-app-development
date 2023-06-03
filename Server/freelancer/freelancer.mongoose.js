@@ -52,7 +52,11 @@ const freelancerSchema = new mongoose.Schema(
                 required : true ,
             } , 
             notifications : [],
-            connections : []
+            connections : [] , 
+            request : {
+                type : String , 
+                default : "Pending"
+            }
             
         }
 )

@@ -114,13 +114,13 @@ class _ProfileState extends State<Profile> {
                     isInvalid: state.isEmailValid,
                     // initialValue: state.profileData['email'] ?? "",
                   ),
-                  buildFieldWithIcon(
-                    icon: Icons.phone,
-                    label: 'Phone Number',
-                    controller: _phoneNumberController,
-                    isInvalid: state.isPhoneNumberValid,
-                    // initialValue: state.profileData['phoneNumber'] ?? "",
-                  ),
+                  // buildFieldWithIcon(
+                  //   icon: Icons.phone,
+                  //   label: 'Phone Number',
+                  //   controller: _phoneNumberController,
+                  //   isInvalid: state.isPhoneNumberValid,
+                  //   // initialValue: state.profileData['phoneNumber'] ?? "",
+                  // ),
                   ElevatedButton(
                     onPressed: submitProfileData,
                     child: Text('${state.requestStatus == ProfileStatus.requestInProgress ? 'updateing...' : 'update'}'),
@@ -159,11 +159,11 @@ class _ProfileState extends State<Profile> {
                   label: 'Email',
                   value: state.profileData['email']?? "",
                 ),
-                _buildInfoFieldWithIcon(
-                  icon: Icons.phone,
-                  label: 'Phone Number',
-                  value: state.profileData['phoneNumber']?? "",
-                ),
+                // _buildInfoFieldWithIcon(
+                //   icon: Icons.phone,
+                //   label: 'Phone Number',
+                //   value: state.profileData['phoneNumber']?? "",
+                // ),
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
 

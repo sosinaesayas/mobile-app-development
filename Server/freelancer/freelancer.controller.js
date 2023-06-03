@@ -21,11 +21,13 @@ const {
         config,
         sendAuthentication,
         isOldPasswordValid,
-        updatePassword
+        updatePassword,
+        getPendingFreelancers,
+        confirmFreelancer
     } = require("./freelancer.model");
 const jwt = require('jsonwebtoken'); 
 const { loginCompany } = require("../company/company.model");
-
+const {loginAdmin} = require("../admin/admin.model")
 async function httpCreateFreelancer(req , res){
     const body  = req.body
     console.log("reqiefudfuif")
@@ -78,10 +80,15 @@ async function httpLoginFreelancer( req , res){
             console.log(result)
             return result
         }else{
-            console.log("checking company...")
-            return await loginCompany(req ,res)
+            
+            result =  await loginCompany(req ,res)
+            if(result){
+                return result
+            }
         }
-   
+        console.log("here")
+        res = await loginAdmin(req , res)
+        return res
      }
      
      
@@ -354,8 +361,30 @@ async function httpUpdatePassword(req, res){
 }
 
 
+async function httpGetPendingFreelancers(req , res){
+    result = await getPendingFreelancers()
+    console.log("request came here")
+    if(result){
+   
+      return  res.status(200).json(result)
+    }
+    return res.status(400).json({ok : false})
+}
+async function httpConfirmFreelancer(req, res){
+    id= req.body.id
+   
+    result = await confirmFreelancer(id)
+    if(result){
+        console.log("wel")
+        return res.status(201).json({ok : true})
+    }
+  
+    return res.status(400).json({ok : false})
+}
 module.exports = {
+    httpConfirmFreelancer,
     httpUpdateProfile, 
+    httpGetPendingFreelancers ,
     httpGetProfile , 
     httpGetAppliedFreelancer , 
     httpGetAppliedJobs , 

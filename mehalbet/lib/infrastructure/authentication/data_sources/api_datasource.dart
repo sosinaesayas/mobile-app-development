@@ -30,25 +30,36 @@ String url = BaseUrlAddress().url;
          Map<String, String> headers = {
        'Content-Type': 'application/json'};
         var response = await http.post(Uri.parse('$url/freelancer/login'), body: jsonEncode(jsonBody) , headers: headers);
-      
+      print(response.statusCode);
        if (response.statusCode == 200) {
         await clearSharedPreferences();
 
         final parsed = jsonDecode(response.body);
        
         if(parsed["entity"] == "freelancer"){
-        print(parsed);
+       
         final model =  UserModel.fromMap(parsed); 
         await MehalbetDatabase.getInstance.insertUser(model); 
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("token", parsed['token']);
 
        
-        }else{
+        }else if(parsed["entity"] == "admin"){
+     
+      
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString("admin", parsed['token']);
+
+       
+        } 
+        
+        else{
         final model =  Company.fromJson(parsed); 
         await CompanyDatabase.getInstance.insertCompany(model) ;  
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString("company_token", model.token);
+        await prefs.setString("companyName", model.name);
+        await prefs.setString("companyEmail",model.email);
         }
         
         return right(parsed);}
@@ -57,6 +68,9 @@ String url = BaseUrlAddress().url;
         
        else if(response.statusCode == 403) {
         return left(InvalidCredentialsFailure('Invalid email or password'));
+      }else if(response.statusCode == 401){
+
+        return left(InvalidCredentialsFailure('You are not accepted by the admin yet!'));
       }
       return left(NetworkFailure("'Failed. Please check your network connection.'"));
     } catch (e) {
@@ -70,8 +84,12 @@ String url = BaseUrlAddress().url;
       try {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.remove('token');
+        await prefs.clear();
 
          await MehalbetDatabase.getInstance.removeUser();
+       await MehalbetDatabase.getInstance.removeNotifications();
+       await MehalbetDatabase.getInstance.removeJobs();
+       
           print("cleared");
          return true;
        

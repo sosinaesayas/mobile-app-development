@@ -25,15 +25,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       response.fold(
         (failure) {
           if (failure is InvalidCredentialsFailure) {
-            print("Invalid credentials!");
-            print(failure.message);
+        
+        
             emit(state.copyWith(status: AuthStatus.authenticationFailed , message:  failure.message));
           } else if (failure is NetworkFailure) {
-            print("Network error!");
-            print(failure.message);
+        
+      
             emit(state.copyWith(status: AuthStatus.authenticationFailed , message:  failure.message));
           } else {
-            print("An error occurred");
+       
             emit(state.copyWith(status: AuthStatus.authenticationFailed ));
           }
         },
@@ -42,9 +42,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           print(userModel);
           if(userModel['entity'] == "freelancer"){
             emit(state.copyWith(status: AuthStatus.authenticationSuccess , entity: AuthStatus.freelancer));
-          }else{
-            print("it is company");
+          }else if(userModel['entity'] == "company"){
             emit(state.copyWith(status: AuthStatus.authenticationSuccess , entity: AuthStatus.company));
+          }
+          
+          else if(userModel['entity'] == "admin"){
+           
+            emit(state.copyWith(status: AuthStatus.authenticationSuccess  , entity: AuthStatus.admin));
           }
         },
       );

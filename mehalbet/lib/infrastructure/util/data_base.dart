@@ -347,7 +347,14 @@ Future<void> _deleteExcessNotifications(Database db) async {
       whereArgs: [jobId],
     );
   }
-
+ Future<void> removeNotifications() async {
+    final db = await database;
+    await db.delete('user_notifications');
+  }
+ Future<void> removeJobs() async {
+    final db = await database;
+    await db.delete('jobs');
+  }
 
 
   Future<void> insertAppliedJobs(List<Job> appliedjobs) async {

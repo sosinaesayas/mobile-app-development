@@ -32,13 +32,16 @@ class _CompanySignupState extends State<CompanySignup> {
       body: BlocBuilder<SignupBloc, SignupState>(
         
         builder: (context, state) {
-          print(state.companysignup);
-          if(state.companysignup == SignUpStatus.signupSuccess)
-          {  WidgetsBinding.instance?.addPostFrameCallback((_) {
+        
+
+             if(state.companysignup == SignUpStatus.signupSuccess ){
+          
+             WidgetsBinding.instance?.addPostFrameCallback((_) {
             context.goNamed(RouteNames.login);
             
-          });}
-          print(state.companysignup);
+          });
+          
+          }
           return SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
             child: Column(
@@ -46,7 +49,8 @@ class _CompanySignupState extends State<CompanySignup> {
                 TextField(
                   controller: companyNameContoller,
                   decoration: InputDecoration(
-                    labelText: 'company name',
+
+                    labelText: 'Company Name',
                   ),
                 ),
                 

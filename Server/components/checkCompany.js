@@ -10,7 +10,7 @@ function checkCompany(req, res, next){
         res.locals.companyEmail = decoded.email;
         res.locals.companyId = decoded.id;
         next()
-    } 
+    }  
     catch(e){
         console.log("anauthenticated")
         res.status(401).json({user  : false })

@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jobportal/application/admin_bloc/admin_bloc.dart';
 import 'package:jobportal/application/auth_bloc/bloc/auth_bloc.dart';
 import 'package:jobportal/application/job/bloc/job_bloc.dart';
 import 'package:jobportal/application/profile_bloc/bloc/profile_bloc.dart';
 import 'package:jobportal/application/signup_bloc/signup_bloc.dart';
+import 'package:jobportal/application/user/bloc/user_bloc.dart';
 import 'package:jobportal/infrastructure/authentication/util/check_login.dart';
 import 'package:jobportal/presentation/login.dart';
 import 'package:jobportal/presentation/home.dart';
+import 'package:jobportal/presentation/pages/admin_home.dart';
 import 'package:jobportal/presentation/pages/applied_freelancers.dart';
 import 'package:jobportal/presentation/pages/company.dart/chome.dart';
 import 'package:jobportal/presentation/pages/company.dart/company_signup.dart';
@@ -45,7 +48,10 @@ class _JobPortalAppState extends State<JobPortalApp> {
 
   final GoRouter _router = GoRouter(
       redirect: (context, state) async {
-        if (await isFreelancer() == true) {
+         if(await isAdmin() == true){
+          return "/adminhome";
+        }
+        else if (await isFreelancer() == true) {
           return "/home";
         } else if (await isCompany() == true) {
           return "/chome";
@@ -60,6 +66,7 @@ class _JobPortalAppState extends State<JobPortalApp> {
                   create: (context) => SignupBloc(),
                   child: FreelancerSignup(),
                 )),
+            
         GoRoute(
             name: RouteNames.comapanySignup,
             path: "/companysignup",
@@ -67,6 +74,7 @@ class _JobPortalAppState extends State<JobPortalApp> {
                   create: (context) => SignupBloc(),
                   child: CompanySignup(),
                 )),
+
         GoRoute(
             name: RouteNames.login,
             path: "/login",
@@ -88,15 +96,41 @@ class _JobPortalAppState extends State<JobPortalApp> {
         GoRoute(
           name: RouteNames.chome, path: "/chome",
 
-          builder: (context, state) => BlocProvider<JobBloc>(
-            create: (context) => JobBloc(),
-            child: CompanyHome(),
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider<JobBloc>(
+                create: (context) => JobBloc(),
+              ),
+              BlocProvider<ProfileBloc>(
+                create: (context) => ProfileBloc(),
+              ),
+            ],
+            child: CompanyHome(), 
+          )
+          
           ),
 
-          // routes: [
+         
+ GoRoute(
+          name: RouteNames.adminHome, path: "/adminhome",
 
-          // ],
-        ),
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              
+              BlocProvider<ProfileBloc>(
+                create: (context) => ProfileBloc(),
+              ),
+            BlocProvider<DeclineBloc>(
+                create: (context) => DeclineBloc(),
+              ),
+             BlocProvider<FreelancerBloc>(
+                create: (context) => FreelancerBloc(),
+              ),
+            ],
+            child: const AdminHome(), 
+          )
+          
+          ),
         GoRoute(
           name: RouteNames.applicants,
           path: '/applicants/:jobid',

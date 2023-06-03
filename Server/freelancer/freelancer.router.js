@@ -2,8 +2,10 @@ const express = require("express")
 const Freelancer = require("./freelancer.mongoose")
 const {passport} = require("./../app")
 const {
+    httpConfirmFreelancer,
     httpCheckConnection, 
     httpGetAllFreelancers ,
+    httpGetPendingFreelancers,
     httpUpdateProfile , 
     httpDeleteFreelancer  , 
     httpLoginFreelancer ,
@@ -19,7 +21,8 @@ const {
     httpGetAppliedFreelancer , 
     httpGetProfile,
     httpUploadProfile,
-    httpUpdatePassword
+    httpUpdatePassword , 
+    
 } = require("./freelancer.controller")
 const {checkCompany} = require("../components/checkCompany")
 const checkLoggedIn = require("../checkLoggedin")
@@ -75,16 +78,19 @@ freelancerRouter.get("/search/:name"  , httpSearchFreelancer)
 
 freelancerRouter.get("/checkconnection/:id" , checkCompany , httpCheckConnection)
 
+freelancerRouter.get("/pendingfreelancers", httpGetPendingFreelancers)
+
 freelancerRouter.post("/signin" , httpCreateFreelancer)  
 
 freelancerRouter.post("/login" , httpLoginFreelancer)
 
-freelancerRouter.post("/upload",print  , upload, httpUploadProfile )
+freelancerRouter.post("/upload", upload, httpUploadProfile )
 
 freelancerRouter.post("/createnotification/:id" , checkCompany , httpCreateNotification)
   
 freelancerRouter.post("/updateprofile" , checkLoggedIn , httpUpdateProfile);
 
+freelancerRouter.post("/confirm" , httpConfirmFreelancer )
 
 freelancerRouter.post("/deleteAccount" , checkLoggedIn , httpDeleteFreelancer)
 

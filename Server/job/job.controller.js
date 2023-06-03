@@ -5,7 +5,7 @@ const
         deleteJobById,
         applyToJob , 
         getPostedJobs,
-        getAllJobs,   
+        getAllJobs,    
         closeJob ,     
         openJob, 
         getJobByDepartment , 

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobportal/application/admin_bloc/admin_bloc.dart';
+import 'package:jobportal/application/admin_bloc/admin_event.dart';
+import 'package:jobportal/application/admin_bloc/admin_state.dart';
 import 'package:jobportal/application/user/bloc/user_bloc.dart';
 import 'package:jobportal/application/user/bloc/user_event.dart';
 import 'package:jobportal/application/user/bloc/user_state.dart';
 import 'package:jobportal/domain/user/user_model.dart';
-import 'package:jobportal/presentation/widgets/check_connection.dart';
 
-class FreelancersList extends StatefulWidget{
+class PendingFreelancers extends StatefulWidget{
   
- const FreelancersList({super.key});
+ const PendingFreelancers({super.key});
 @override
-  State<FreelancersList> createState() => _FreelancersListState();
+  State<PendingFreelancers> createState() => _PendingFreelancersState();
           }
 
 
 
-class _FreelancersListState extends State<FreelancersList> {
+class _PendingFreelancersState extends State<PendingFreelancers> {
   
  
   @override
@@ -27,7 +29,7 @@ class _FreelancersListState extends State<FreelancersList> {
   }
 
 void requestFreelancers() {
-    BlocProvider.of<FreelancerBloc>(context).add(RandomFreelancersRequested());
+    BlocProvider.of<FreelancerBloc>(context).add(PendingFreelancersRequested());
   }
   Widget build(BuildContext context) {
     return BlocBuilder<FreelancerBloc , FreelancerState>(
@@ -52,10 +54,35 @@ void requestFreelancers() {
           return ListView.builder(
             itemCount: state.freelancers.length,
             itemBuilder: (context , index){
+             final freelancer  = state.freelancers[index];
                 return Column(
                   children: [
                     FreelancerCard( freelancer : state.freelancers[index]),
-                    CheckConnection(freelancerId: state.freelancers[index].id)
+                  BlocBuilder<DeclineBloc , DeclineState>(builder: ( context , state){
+      return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+       state.confirm == DeclineStatus.unknown ? 
+           ElevatedButton(onPressed:() {
+            context.read<DeclineBloc>().add(ConfirmRequested(userId: freelancer.id ));
+            setState(() {
+              
+            });
+          },
+          
+           child: Text("Confirm")) : Text("Confirmed") , 
+
+
+           ElevatedButton(onPressed:() {
+            context.read<DeclineBloc>().add(DeclineRequested(userId: freelancer.id ));
+          },
+          
+           child: Text("Decline"))  
+        ],
+      ),
+    );
+    })
                   ],
                 );
           }
@@ -109,4 +136,51 @@ class FreelancerCard extends StatelessWidget{
     );
   }
   
+}
+
+
+class AdminButtons extends StatefulWidget {
+  const AdminButtons({required this.freelancerId});
+final String freelancerId;
+ 
+  @override
+  State<AdminButtons> createState() => _AdminButtonsState();
+}
+
+class _AdminButtonsState extends State<AdminButtons> {
+  String btn = "confirm" ;
+  @override
+  Widget build(BuildContext context) {
+    // return BlocBuilder<DeclineBloc , DeclineState>(builder: ( context , state){
+      
+      
+      return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+      
+           ElevatedButton(
+            onPressed:() {
+            context.read<DeclineBloc>().add(ConfirmRequested(userId: widget.freelancerId));
+            setState(() {
+              btn = "Confirmed";
+            });
+          },
+          
+             child: Text("Confirm"
+    // state.confirm == DeclineStatus.unknown ? "Confirm" : "Confirmed",
+  ),) , 
+
+
+           ElevatedButton(onPressed:() {
+            context.read<DeclineBloc>().add(DeclineRequested(userId: widget.freelancerId));
+          },
+          
+           child: Text("Decline"))  
+        ],
+      ),
+    );
+    }
+    // );
+  // }
 }

@@ -11,6 +11,8 @@ class FreelancerBloc extends Bloc<FreelancerEvent, FreelancerState> {
     on<RandomFreelancersRequested>(_handleFreelancersRequested);
     on<AppliedFreelancersRequested>(_handleAppliedFreelancersRequested);
     on<AcceptFreelancerRequested>(_handleAcceptFreelancerRequested);
+    on<PendingFreelancersRequested>(_handlePendingFreelancersRequested);
+    
   }
 
   _handleFreelancersRequested(RandomFreelancersRequested event , Emitter<FreelancerState> emit)async{
@@ -66,4 +68,20 @@ class FreelancerBloc extends Bloc<FreelancerEvent, FreelancerState> {
      print(e);
    }
 }
+ Future<void> _handlePendingFreelancersRequested(PendingFreelancersRequested event, Emitter<FreelancerState> emit)async{
+      UserApiDataSource api = UserApiDataSource();
+      emit(state.copyWith(
+      status: FreelancerStatus.RequestInProgress ));
+      final response = await api.getPendingFreelncers();
+
+      response.fold((l)
+      {
+          if(l is NetworkFailure){
+            emit(state.copyWith(appliedstatus: FreelancerStatus.RequestFailed));
+          }
+      },
+       (r) => emit(state.copyWith(appliedstatus: FreelancerStatus.RequestSuccess , freelancers: r)));
+  }
+
+
 }

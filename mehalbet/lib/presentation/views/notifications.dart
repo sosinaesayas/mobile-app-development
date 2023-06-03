@@ -19,7 +19,7 @@ class NotificationCard extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Text(
 
-          '${companyName} ${ message}',
+          ' ${ message}',
           style: const TextStyle(fontSize: 16.0),
         ),
       ),

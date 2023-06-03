@@ -11,9 +11,9 @@ class Freelancers extends StatelessWidget {
   Widget build(BuildContext context) {
    
     return 
-  MaterialApp(home:   BlocProvider<FreelancerBloc> (
+   BlocProvider<FreelancerBloc> (
     create: (context) => FreelancerBloc() ,
-    child : const FreelancersList(),),);
+    child : const FreelancersList(),);
 
 
     

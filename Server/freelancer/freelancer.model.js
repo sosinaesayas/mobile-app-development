@@ -72,7 +72,10 @@ if(!user){
 
 }   
 else if(await bcrypt.compare(req.body.password , user.password )){
-
+    if (user.request === "Pending") {
+        return res.status(401).json({ error: "User request is pending" });
+      }
+  
     const token = jwt.sign( 
         {email : user.email , name : user.firstName  , department : user.department , id : user.id} , config.COOKIE_KEY
     )
@@ -192,7 +195,8 @@ async function getRandomFreelancers(){
             notifications: 0,
             _id: 0,
             password: 0, 
-            __v : 0
+            __v : 0 , 
+            request : 0
           }
         }
       ]);
@@ -519,11 +523,48 @@ async function deleteFreelancerById(id){
         } catch (error) {
             console.log(error)
            return false
-
+ 
         }
 }
 
+
+async function getPendingFreelancers(){
+    console.log("here")
+    try {
+        result = await freelancer.find({
+            request : "Pending"
+        })
+        console.log(result)
+
+        return result
+    } catch (error) {
+        console.log(error)
+        return false;
+    }
+}
+
+
+
+async function confirmFreelancer(id){
+ 
+
+   try {
+   await freelancer.updateOne(
+        {
+            id : id , 
+        } , 
+        {$set : {request : "Accepted"}}
+     
+    )
+    return true
+   } catch (error) {
+    return false
+   }
+
+}
 module.exports = {
+    confirmFreelancer, 
+    getPendingFreelancers,
     updateProfile,
     checkEmail ,
     getAppliedFreelancer , 
