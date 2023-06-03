@@ -49,7 +49,6 @@ class _CompanySignupState extends State<CompanySignup> {
                 TextField(
                   controller: companyNameContoller,
                   decoration: InputDecoration(
-
                     labelText: 'Company Name',
                   ),
                 ),
