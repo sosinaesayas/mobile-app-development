@@ -137,7 +137,7 @@ class UserApiDataSource {
       "Content-type" : "application/json"
      }, body: parsed);
 
-    if(response.statusCode == 200){
+    if(response.statusCode == 201){
         try {   return right(true);
         } catch (e) {
          print(e);

@@ -15,7 +15,7 @@ dependencies:
   fast_flutter_driver_tool: ^3.0.0
 
  
-  
+
 
   mongo_dart: ^0.9.1
   bloc: ^8.1.2

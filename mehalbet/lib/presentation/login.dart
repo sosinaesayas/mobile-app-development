@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
     return Container(
       child: BlocBuilder<AuthBloc, AuthState>(
         
-        builder: (contex ,state){
+        builder: (context ,state){
           
           if(state.status == AuthStatus.authenticationSuccess && state.entity == AuthStatus.freelancer){
           

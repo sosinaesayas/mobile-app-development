@@ -35,9 +35,19 @@ void requestFreelancers() {
         if(state.freelancers == []){
             return const Center(child : Text("no data" , style: TextStyle(color: Colors.white),));
         }else if(state.status == FreelancerStatus.RequestInProgress && state.freelancers.length == 0){ 
-          return const Center(child : Text("in progress" , style: TextStyle(color: Colors.white),));
+          return Center(
+            child: Container(
+              height: 45,
+              width: 45,
+              child : CircularProgressIndicator()),
+          );
         }else if(state.status == FreelancerStatus.RequestFailed){
-          return const Center(child : Text("Error  happened" , style: TextStyle(color: Colors.white),));
+          return Center(
+            child: Container(
+              height: 45,
+              width: 45,
+              child : Text("Error")),
+          );
         }else{
           return ListView.builder(
             itemCount: state.freelancers.length,
@@ -64,34 +74,35 @@ class FreelancerCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) { 
     return  Container(
-      color: Color.fromARGB(255, 222, 219, 230),
+      color: Colors.grey[800],
       width: double.infinity,
+      
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(25.0),
         child: Column(
           children: [
-            Text("${this.freelancer.firstName}  ${this.freelancer.lastName}" , style: const TextStyle(
-              fontSize: 15 , 
+            Text("${this.freelancer.firstName}  ${this.freelancer.lastName}" , style: TextStyle(
+              fontSize: 16 , 
               fontWeight: FontWeight.w700, 
-              color: Color.fromARGB(255, 16, 13, 13) , 
+              color: Colors.white , 
             ),) , 
             Text("Field of study :  ${this.freelancer.department}" , style: TextStyle(
                   fontWeight: FontWeight.w400 ,
-                  fontSize: 13, 
-                  color: Colors.grey[800]
+                  fontSize: 15, 
+                color: Colors.grey[400] , 
             ),), 
            
             Text("Description : ${this.freelancer.description}" , style: TextStyle(
-                  fontWeight: FontWeight.w200 ,
-                  fontStyle: FontStyle.italic,
-                  fontSize: 13, 
-                  color: Colors.grey[800]
+              
+                 
+                  fontSize: 15, 
+                  color: Colors.grey[400]
             ) ), 
             Text("Email : ${this.freelancer.email}" ,style: TextStyle(
-                  fontWeight: FontWeight.w100 ,
+              
                   fontStyle: FontStyle.italic,
-                  fontSize: 13, 
-                  color: Colors.grey[800]
+                  fontSize: 15, 
+                  color: Colors.grey[400]
             )), ],
         ),
       ),

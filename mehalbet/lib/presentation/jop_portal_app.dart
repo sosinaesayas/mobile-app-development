@@ -60,6 +60,7 @@ class _JobPortalAppState extends State<JobPortalApp> {
                   create: (context) => SignupBloc(),
                   child: FreelancerSignup(),
                 )),
+            
         GoRoute(
             name: RouteNames.comapanySignup,
             path: "/companysignup",
@@ -88,15 +89,24 @@ class _JobPortalAppState extends State<JobPortalApp> {
         GoRoute(
           name: RouteNames.chome, path: "/chome",
 
-          builder: (context, state) => BlocProvider<JobBloc>(
-            create: (context) => JobBloc(),
-            child: CompanyHome(),
+          builder: (context, state) => MultiBlocProvider(
+            providers: [
+              BlocProvider<JobBloc>(
+                create: (context) => JobBloc(),
+              ),
+              BlocProvider<ProfileBloc>(
+                create: (context) => ProfileBloc(),
+              ),
+            ],
+            child: CompanyHome(), 
+          )
+          
           ),
 
           // routes: [
 
           // ],
-        ),
+
         GoRoute(
           name: RouteNames.applicants,
           path: '/applicants/:jobid',

@@ -9,11 +9,10 @@ class PostedJobs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-            home :     BlocProvider<JobBloc>(
+    return      BlocProvider<JobBloc>(
         create: (context) => JobBloc(),
         child: ListofJobs()
-      )
+      
     );
   }
     

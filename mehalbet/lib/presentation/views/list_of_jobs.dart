@@ -36,8 +36,16 @@ void requestPostedJobs(){
   Widget build(BuildContext context) {
     return  BlocBuilder<JobBloc , JobsState>(builder: (context , state){
         if(state.jobs.isEmpty && state.postedjobsrequest == JobsStatus.requestSuccess ){
-          return const Center(
-           child :  Text("You haven't posted any thing so far. Feel free to post and reach out freealcers")
+          return Padding(padding: EdgeInsets.all(15),
+          child: Container(
+            color: Colors.black12,
+           child :Align(
+            alignment: Alignment.center,
+            child :   Text("You haven't posted any thing so far. Feel free to post and reach out freealcers" , 
+           style: TextStyle(color : Colors.grey),
+           )
+           )
+          ),
           );
         }else if(state.jobs.isNotEmpty){
           const   SnackBar(content:   Text( "no network error"));
